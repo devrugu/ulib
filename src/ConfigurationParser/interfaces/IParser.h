@@ -1,7 +1,7 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
-#include "../../headers/allHeaders.h"
+#include "../../headers/AllHeaders.h"
 
 class IParser
 {

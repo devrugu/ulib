@@ -18,7 +18,9 @@ INCLUDEPATH += /usr/local/include
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    src/ConfigurationParser/mat/sources/matFileLoader.cpp \
+    src/ConfigurationParser/mat/sources/MatConfigParser.cpp \
+    src/ConfigurationParser/mat/sources/MatFileLoader.cpp \
+    src/ConfigurationParser/mat/sources/MatParser.cpp \
     src/ConfigurationParser/xml/sources/XmlConfigParser.cpp \
     src/ConfigurationParser/xml/sources/XmlFileLoader.cpp \
     src/ConfigurationParser/xml/sources/XmlInterpreter.cpp \
@@ -41,9 +43,11 @@ HEADERS += \
     src/ConfigurationParser/interfaces/IInterpreter.h \
     src/ConfigurationParser/interfaces/ILexer.h \
     src/ConfigurationParser/interfaces/IParser.h \
-    src/ConfigurationParser/mat/headers/matFileLoader.h \
+    src/ConfigurationParser/mat/headers/MatConfigParser.h \
+    src/ConfigurationParser/mat/headers/MatFileLoader.h \
+    src/ConfigurationParser/mat/headers/MatParser.h \
     src/ConfigurationParser/xml/headers/XmlConfigParser.h \
     src/ConfigurationParser/xml/headers/XmlFileLoader.h \
     src/ConfigurationParser/xml/headers/XmlInterpreter.h \
     src/ConfigurationParser/xml/headers/XmlParser.h \
-    src/headers/allHeaders.h
+    src/headers/AllHeaders.h

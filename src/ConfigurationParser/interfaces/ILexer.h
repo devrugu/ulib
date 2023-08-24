@@ -1,7 +1,7 @@
 #ifndef ILEXER_H
 #define ILEXER_H
 
-#include "../../headers/allHeaders.h"
+#include "../../headers/AllHeaders.h"
 
 class ILexer
 {

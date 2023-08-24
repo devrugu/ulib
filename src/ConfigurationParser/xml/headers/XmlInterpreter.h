@@ -1,7 +1,7 @@
 #ifndef XMLINTERPRETER_H
 #define XMLINTERPRETER_H
 
-#include "../../../headers/allHeaders.h"
+#include "../../../headers/AllHeaders.h"
 
 class XmlInterpreter {
 public:

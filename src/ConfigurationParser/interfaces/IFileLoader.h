@@ -1,7 +1,7 @@
 #ifndef IFILELOADER_H
 #define IFILELOADER_H
 
-#include "../../headers/allHeaders.h"
+#include "../../headers/AllHeaders.h"
 
 class IFileLoader
 {

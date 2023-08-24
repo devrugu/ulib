@@ -1,16 +1,16 @@
-#include "../headers/matFileLoader.h"
+#include "../headers/MatFileLoader.h"
 
-matFileLoader::~matFileLoader()
+MatFileLoader::~MatFileLoader()
 {
     std::cout << "mat file loader successfully deconstructed\n\n";
 }
 
-matFileLoader::matFileLoader()
+MatFileLoader::MatFileLoader()
 {
     std::cout << "mat file loader successfully constructed\n\n";
 }
 
-mat_t *matFileLoader::loadMatFile(const char *fileName, int mode)
+mat_t *MatFileLoader::LoadMatFile(const char *fileName, int mode)
 {
     // Open the MAT file
     mat_t *matfp = Mat_Open(fileName, (mode==0)?readOnlyMode:readWriteMode);
