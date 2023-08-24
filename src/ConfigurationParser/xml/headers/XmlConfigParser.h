@@ -4,7 +4,6 @@
 #include "../../interfaces/IConfigParser.h"
 #include "XmlFileLoader.h"
 #include "XmlParser.h"
-#include "XmlInterpreter.h"
 
 class XmlConfigParser : public IConfigParser
 {
