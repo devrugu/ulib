@@ -45,6 +45,7 @@ HEADERS += \
     src/ConfigurationParser/interfaces/IParser.h \
     src/ConfigurationParser/mat/headers/MatConfigParser.h \
     src/ConfigurationParser/mat/headers/MatFileLoader.h \
+    src/ConfigurationParser/mat/headers/MatInterpreter.h \
     src/ConfigurationParser/mat/headers/MatParser.h \
     src/ConfigurationParser/xml/headers/XmlConfigParser.h \
     src/ConfigurationParser/xml/headers/XmlFileLoader.h \
