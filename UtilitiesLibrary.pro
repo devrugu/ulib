@@ -1,4 +1,5 @@
 QT -= gui
+QT += core
 QT += xml
 
 TEMPLATE = lib
@@ -20,6 +21,7 @@ INCLUDEPATH += /usr/local/include
 SOURCES += \
     src/ConfigurationParser/mat/sources/MatConfigParser.cpp \
     src/ConfigurationParser/mat/sources/MatFileLoader.cpp \
+    src/ConfigurationParser/mat/sources/MatInterpreter.cpp \
     src/ConfigurationParser/mat/sources/MatParser.cpp \
     src/ConfigurationParser/xml/sources/XmlConfigParser.cpp \
     src/ConfigurationParser/xml/sources/XmlFileLoader.cpp \

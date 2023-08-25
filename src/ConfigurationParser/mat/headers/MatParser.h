@@ -9,7 +9,7 @@ public:
     virtual ~MatParser();
     MatParser();
 
-    std::map<char *, matvar_t *> ParseMatFile(mat_t* matfp);
+    std::vector<matvar_t *> ParseMatFile(mat_t* matfp);
 };
 
 #endif // MATPARSER_H

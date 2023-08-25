@@ -14,3 +14,4 @@
 #include <type_traits>
 #include <utility>
 #include <matio.h>
+#include <QGlobalStatic>
