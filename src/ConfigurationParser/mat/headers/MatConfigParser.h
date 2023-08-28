@@ -2,6 +2,8 @@
 #define MATCONFIGPARSER_H
 
 #include "MatFileLoader.h"
+#include "MatParser.h"
+#include "MatInterpreter.h"
 
 class matConfigParser
 {
@@ -9,14 +11,12 @@ public:
     virtual ~matConfigParser();
     matConfigParser();
 
-    /*
-     * önce parser sınıfını tasarla ve implemente et
-     * sonra config parser ana sınıfını tasarla
-     * dönüş türünü belirle
-    */
+    std::map<std::string ,std::any> ParseConfigMatFile(const std::string fileName, int mode, std::vector<std::string> UserVariableNames);
 
 private:
     MatFileLoader fileLoader;
+    MatParser parser;
+    MatInterpreter interpreter;
 };
 
 #endif // MATCONFIGPARSER_H

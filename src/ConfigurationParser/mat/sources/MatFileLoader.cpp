@@ -10,10 +10,10 @@ MatFileLoader::MatFileLoader()
     std::cout << "mat file loader successfully constructed\n\n";
 }
 
-mat_t *MatFileLoader::LoadMatFile(const char *fileName, int mode)
+mat_t *MatFileLoader::LoadMatFile(std::string fileName, int mode)
 {
     // Open the MAT file
-    mat_t *matfp = Mat_Open(fileName, (mode==0)?readOnlyMode:readWriteMode);
+    mat_t *matfp = Mat_Open(fileName.c_str(), (mode==0)?readOnlyMode:readWriteMode);
     if (NULL == matfp) {
         std::cerr << "Error opening MAT file: " << fileName << "\n";
         exit(-1);

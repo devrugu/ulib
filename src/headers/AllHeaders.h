@@ -15,3 +15,4 @@
 #include <utility>
 #include <matio.h>
 #include <QGlobalStatic>
+#include <cstring>

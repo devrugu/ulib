@@ -9,8 +9,8 @@ public:
     virtual ~MatInterpreter();
     MatInterpreter();
 
-    std::map<char *, std::any> SpecifyDataType(matvar_t *Variable, char *Name);
-    std::map<char *, std::any> InterpreteMatFile(std::vector<matvar_t*> Variables, std::vector<char* > UserVariableNames);
+    std::pair<std::string, std::any> SpecifyDataType(matvar_t *Variable, std::string Name);
+    std::map<std::string, std::any> InterpreteMatFile(std::vector<matvar_t*> Variables, std::vector<std::string> UserVariableNames);
 };
 
 #endif // MATINTERPRETER_H

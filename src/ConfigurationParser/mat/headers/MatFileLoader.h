@@ -13,7 +13,7 @@ public:
 
     MatFileLoader();
 
-    mat_t* LoadMatFile(const char* fileName, int mode);
+    mat_t* LoadMatFile(std::string fileName, int mode);
 };
 
 #endif //MATFILELOADER_H
