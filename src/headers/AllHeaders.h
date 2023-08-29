@@ -16,3 +16,6 @@
 #include <matio.h>
 #include <QGlobalStatic>
 #include <cstring>
+#include <cstdint>
+#include <memory>
+#include <chrono>
