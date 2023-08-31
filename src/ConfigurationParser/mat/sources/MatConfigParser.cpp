@@ -15,14 +15,11 @@ std::map<std::string, std::any> matConfigParser::ParseConfigMatFile(const std::s
 {
     mat_t* matfp = fileLoader.LoadMatFile(fileName, mode);
 
-    //auto start = std::chrono::high_resolution_clock::now(); // başlangıç süresi
-    std::vector<matvar_t *> Variables = parser.ParseMatFile(matfp);
-    //auto end = std::chrono::high_resolution_clock::now();   // bitiş süresi
+    std::map<std::string, matvar_t*> VariablesOfUser = parser.ParseMatFile(matfp, UserVariableNames);
 
-    //auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);  // süre hesaplaması
-    //std::cout << "The function took: " << duration.count() << " seconds." << std::endl; //süreyi yazdır
+    std::map<std::string ,std::any> TypeCastedVariablesOfUser = interpreter.InterpreteMatFile(VariablesOfUser);
 
-    std::map<std::string ,std::any> TypeCastedVariablesOfUser = interpreter.InterpreteMatFile(Variables, UserVariableNames);
+    Mat_Close(matfp);
 
     return TypeCastedVariablesOfUser;
 }

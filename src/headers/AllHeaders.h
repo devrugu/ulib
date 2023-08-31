@@ -19,3 +19,4 @@
 #include <cstdint>
 #include <memory>
 #include <chrono>
+#include <QtConcurrent/QtConcurrent>

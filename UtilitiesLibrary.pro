@@ -1,6 +1,5 @@
 QT -= gui
-QT += core
-QT += xml
+QT += core xml concurrent
 
 TEMPLATE = lib
 

@@ -19,25 +19,23 @@ MAT_T_UTF32     = 18   < @brief MAT unicode utf-32 encoded character data
 
 */
 
-
 #include "../headers/MatInterpreter.h"
 
 MatInterpreter::MatInterpreter()
 {
-    std::cout << "MAT file interpreter successfully constructed\n";
+    std::cout << "MAT file interpreter successfully constructed\n\n";
 }
 
 MatInterpreter::~MatInterpreter()
 {
-    std::cout << "MAT file interpreter successfully deconstructed\n";
+    std::cout << "MAT file interpreter successfully deconstructed\n\n";
 }
 
 std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Variable, const std::string Name) {
     std::pair<std::string, std::any> TypeCastedVariableOfUser;
 
     if (Variable->class_type == MAT_C_OPAQUE) {
-        std::shared_ptr<char> ptr(static_cast<char*>(Variable->data));
-        TypeCastedVariableOfUser = std::make_pair(Name, ptr);
+        std::cout << "Error: Data type of variable '" << Variable->name << "' is unknown!\n";
     }
     else if (Variable->data_type == MAT_T_UNKNOWN) {
         std::cout << "Error: Data type of variable '" << Variable->name << "' is unknown!\n";
@@ -49,7 +47,10 @@ std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Varia
         std::string value(wideString.begin(), wideString.end());
 
         std::shared_ptr<char[]> newValue(new char[value.length() + 1]);
-        std::strcpy(newValue.get(), value.c_str());
+        //std::strcpy(newValue.get(), value.c_str());
+        // Copying the string safely
+        std::copy(value.begin(), value.end(), newValue.get());
+        newValue[value.length()] = '\0'; // null-terminating the C-string
 
         TypeCastedVariableOfUser = std::make_pair(Name, newValue);
     }
@@ -103,37 +104,21 @@ std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Varia
 }
 
 
-std::map<std::string, std::any> MatInterpreter::InterpreteMatFile(std::vector<matvar_t*> Variables, std::vector<std::string> UserVariableNames)
+std::map<std::string, std::any> MatInterpreter::InterpreteMatFile(std::map<std::string, matvar_t*> VariablesOfUser)
 {
-    std::map<std::string, matvar_t*> VariablesOfUser;
-    for (const std::string &UserVar : UserVariableNames) {
-        bool found = false;
-        for (matvar_t* MatVar : Variables) {
-
-            if (!strcmp(MatVar->name, UserVar.c_str())) {
-                VariablesOfUser[UserVar] = MatVar;
-                found = true;
-                break;
-            }
-        }
-        if(!found) {
-            std::cerr << "Variable '" << UserVar << "' not found in the MAT file." << std::endl;
-        }
-    }
-
-
     std::map<std::string ,std::any> TypeCastedVariablesOfUser;
     for (const auto& [Name, Var] : VariablesOfUser) {
         if(Var->class_type == MAT_C_STRUCT){
             for (size_t i = 0; i < Var->nbytes / Var->data_size; ++i) {
                 matvar_t *field = Mat_VarGetStructFieldByIndex(Var, i, 0);
                 if (field) {
-                    std::cout << "Processing struct field: " << field->name << std::endl;
+                    std::cout << "Processing struct field: " << field->name << "\n";
                     TypeCastedVariablesOfUser.insert(SpecifyDataType(field, field->name));
+                    //Mat_VarFree(field);
                 }
             }
         } else {
-            std::cout << "Processing variable: " << Name << std::endl;
+            std::cout << "Processing variable: " << Name << "\n";
             TypeCastedVariablesOfUser.insert(SpecifyDataType(Var, Name));
         }
 

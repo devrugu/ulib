@@ -10,16 +10,25 @@ MatParser::MatParser()
     std::cout << "MAT file parser successfully constructed\n\n";
 }
 
-std::vector<matvar_t *> MatParser::ParseMatFile(mat_t *matfp)
+std::map<std::string, matvar_t*> MatParser::ParseMatFile(mat_t *matfp, std::vector<std::string> UserVariableNames)
 {
-    matvar_t *matVar;
-    std::vector<matvar_t *> Variables; // for ease of use
-    //sorun burada basliyor -- once burayi hallet -- halledildi
-    //matVar değiştirince vector içerisindeki matVar ın de içeriği değişiyor ve yok oluyor. --çözüldü
-    while ( NULL != (matVar = Mat_VarReadNext(matfp)) ) {
-        Variables.push_back(Mat_VarDuplicate(matVar, 1));
-        Mat_VarFree(matVar);
+    matvar_t *MatVar;
+
+    std::map<std::string, matvar_t*> VariablesOfUser;
+    for (const std::string &UserVar : UserVariableNames) {
+        bool found = false;
+        while ( NULL != (MatVar = Mat_VarReadNext(matfp)) ) {
+            if (!strcmp(MatVar->name, UserVar.c_str())) {
+                VariablesOfUser[UserVar] = Mat_VarDuplicate(MatVar, 1);
+                Mat_VarFree(MatVar);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            std::cerr << "Variable '" << UserVar << "' not found in the MAT file." << std::endl;
+        }
     }
 
-    return Variables;
+    return VariablesOfUser;
 }
