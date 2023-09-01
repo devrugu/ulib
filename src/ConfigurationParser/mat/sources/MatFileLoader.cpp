@@ -2,18 +2,18 @@
 
 MatFileLoader::~MatFileLoader()
 {
-    std::cout << "mat file loader successfully deconstructed\n\n";
+    //std::cout << "mat file loader successfully deconstructed\n\n";
 }
 
 MatFileLoader::MatFileLoader()
 {
-    std::cout << "mat file loader successfully constructed\n\n";
+    //std::cout << "mat file loader successfully constructed\n\n";
 }
 
 mat_t *MatFileLoader::LoadMatFile(std::string fileName, int mode)
 {
     // Open the MAT file
-    mat_t *matfp = Mat_Open(fileName.c_str(), (mode==0)?readOnlyMode:readWriteMode);
+    mat_t *matfp = Mat_Open(fileName.c_str(), mode);
     if (NULL == matfp) {
         std::cerr << "Error opening MAT file: " << fileName << "\n";
         exit(-1);

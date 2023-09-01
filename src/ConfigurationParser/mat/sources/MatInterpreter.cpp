@@ -23,12 +23,12 @@ MAT_T_UTF32     = 18   < @brief MAT unicode utf-32 encoded character data
 
 MatInterpreter::MatInterpreter()
 {
-    std::cout << "MAT file interpreter successfully constructed\n\n";
+    //std::cout << "MAT file interpreter successfully constructed\n\n";
 }
 
 MatInterpreter::~MatInterpreter()
 {
-    std::cout << "MAT file interpreter successfully deconstructed\n\n";
+    //std::cout << "MAT file interpreter successfully deconstructed\n\n";
 }
 
 std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Variable, const std::string Name) {
@@ -103,7 +103,6 @@ std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Varia
     return TypeCastedVariableOfUser;
 }
 
-
 std::map<std::string, std::any> MatInterpreter::InterpreteMatFile(std::map<std::string, matvar_t*> VariablesOfUser)
 {
     std::map<std::string ,std::any> TypeCastedVariablesOfUser;
@@ -121,7 +120,6 @@ std::map<std::string, std::any> MatInterpreter::InterpreteMatFile(std::map<std::
             std::cout << "Processing variable: " << Name << "\n";
             TypeCastedVariablesOfUser.insert(SpecifyDataType(Var, Name));
         }
-
     }
 
     return TypeCastedVariablesOfUser;

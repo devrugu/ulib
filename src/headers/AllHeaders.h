@@ -19,4 +19,5 @@
 #include <cstdint>
 #include <memory>
 #include <chrono>
-#include <QtConcurrent/QtConcurrent>
+#include <QtConcurrent>
+#include <QMutex>

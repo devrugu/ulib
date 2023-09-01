@@ -3,8 +3,8 @@
 
 #include "../../../headers/AllHeaders.h"
 
-#define readOnlyMode 0
-#define readWriteMode 1
+#define ReadOnlyMode 0
+#define ReadWriteMode 1
 
 class MatFileLoader
 {
