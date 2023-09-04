@@ -21,3 +21,6 @@
 #include <chrono>
 #include <QtConcurrent>
 #include <QMutex>
+#include <fstream>
+#include <variant>
+#include <stdexcept>

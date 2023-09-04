@@ -22,6 +22,10 @@ SOURCES += \
     src/ConfigurationParser/mat/sources/MatFileLoader.cpp \
     src/ConfigurationParser/mat/sources/MatInterpreter.cpp \
     src/ConfigurationParser/mat/sources/MatParser.cpp \
+    src/ConfigurationParser/txt/sources/TxtConfigParser.cpp \
+    src/ConfigurationParser/txt/sources/TxtFileLoader.cpp \
+    src/ConfigurationParser/txt/sources/TxtInterpreter.cpp \
+    src/ConfigurationParser/txt/sources/TxtParser.cpp \
     src/ConfigurationParser/xml/sources/XmlConfigParser.cpp \
     src/ConfigurationParser/xml/sources/XmlFileLoader.cpp \
     src/ConfigurationParser/xml/sources/XmlInterpreter.cpp \
@@ -48,6 +52,10 @@ HEADERS += \
     src/ConfigurationParser/mat/headers/MatFileLoader.h \
     src/ConfigurationParser/mat/headers/MatInterpreter.h \
     src/ConfigurationParser/mat/headers/MatParser.h \
+    src/ConfigurationParser/txt/headers/TxtConfigParser.h \
+    src/ConfigurationParser/txt/headers/TxtFileLoader.h \
+    src/ConfigurationParser/txt/headers/TxtInterpreter.h \
+    src/ConfigurationParser/txt/headers/TxtParser.h \
     src/ConfigurationParser/xml/headers/XmlConfigParser.h \
     src/ConfigurationParser/xml/headers/XmlFileLoader.h \
     src/ConfigurationParser/xml/headers/XmlInterpreter.h \
