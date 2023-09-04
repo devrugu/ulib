@@ -8,7 +8,7 @@ Just build the library and create the "*.so" file.
 
 ## Usage
 
-link your program to created "*.so" file.
+link your program to the created "*.so" file.
 
 ## License
 
