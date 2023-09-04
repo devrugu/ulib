@@ -47,10 +47,8 @@ std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Varia
         std::string value(wideString.begin(), wideString.end());
 
         std::shared_ptr<char[]> newValue(new char[value.length() + 1]);
-        //std::strcpy(newValue.get(), value.c_str());
-        // Copying the string safely
         std::copy(value.begin(), value.end(), newValue.get());
-        newValue[value.length()] = '\0'; // null-terminating the C-string
+        newValue[value.length()] = '\0';
 
         TypeCastedVariableOfUser = std::make_pair(Name, newValue);
     }
@@ -113,7 +111,7 @@ std::map<std::string, std::any> MatInterpreter::InterpreteMatFile(std::map<std::
                 if (field) {
                     std::cout << "Processing struct field: " << field->name << "\n";
                     TypeCastedVariablesOfUser.insert(SpecifyDataType(field, field->name));
-                    //Mat_VarFree(field);
+                    //Mat_VarFree(field);   // no need
                 }
             }
         } else {

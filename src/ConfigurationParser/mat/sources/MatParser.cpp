@@ -15,7 +15,7 @@ std::map<std::string, matvar_t*> MatParser::ParseMatFile(mat_t *matfp, std::vect
     std::map<std::string, matvar_t*> VariablesOfUser;
 
     if(ReadType){
-        // reading some of the variables
+        // reading selected variables one by one
         for (const std::string &UserVar : UserVariableNames) {
             VariablesOfUser[UserVar] = Mat_VarRead(matfp, UserVar.c_str());
         }
@@ -27,6 +27,8 @@ std::map<std::string, matvar_t*> MatParser::ParseMatFile(mat_t *matfp, std::vect
         while ( NULL != (MatVar = Mat_VarReadNext(matfp)) ) {
             AllVariablesOfMatFile.push_back(MatVar);
         }
+
+        WriteMatFile(AllVariablesOfMatFile);
 
         for (const std::string &UserVar: UserVariableNames) {
             bool found = false;
@@ -42,6 +44,22 @@ std::map<std::string, matvar_t*> MatParser::ParseMatFile(mat_t *matfp, std::vect
         }
     }
     return VariablesOfUser;
+}
+
+void MatParser::WriteMatFile(std::vector<matvar_t *> AllVariablesOfMatFile)
+{
+    mat_t* matfp2 = Mat_CreateVer("generated-mat-file.mat", NULL, MAT_FT_MAT5);
+        if (matfp2 == NULL) {
+            std::cerr << "Error creating MAT file: " << "generated-mat-file.mat" << std::endl;
+        }
+
+        for (const auto& Var : AllVariablesOfMatFile) {
+            if (Mat_VarWrite(matfp2, Var, MAT_COMPRESSION_NONE) != 0) {
+                std::cerr << "Error writing variable '" << Var->name << "' to MAT file." << std::endl;
+            }
+        }
+
+        Mat_Close(matfp2);
 }
 
 //for (const std::string &UserVar : UserVariableNames) {
