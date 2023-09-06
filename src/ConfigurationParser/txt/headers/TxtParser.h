@@ -5,7 +5,7 @@
 
 class TxtParser {
 public:
-    static std::unordered_map<std::string, std::pair<std::string, std::string>> parse(const std::vector<std::string>& lines);
+    static std::unordered_map<std::string, std::pair<std::string, std::string>> parse(std::string content);
 };
 
 #endif  // TXTPARSER_H

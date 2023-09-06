@@ -5,7 +5,10 @@
 
 class TxtFileLoader {
 public:
-    static std::vector<std::string> load(const std::string& filepath);
+    virtual ~TxtFileLoader();   //decon
+    TxtFileLoader();            //con
+
+    std::string load(const std::string& filepath);
 };
 
 #endif  // TXTFILELOADER_H

@@ -24,3 +24,7 @@
 #include <fstream>
 #include <variant>
 #include <stdexcept>
+#include <iterator>
+#include <algorithm>
+#include <cctype>
+#include <regex>
