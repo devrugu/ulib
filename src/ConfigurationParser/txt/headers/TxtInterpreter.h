@@ -2,12 +2,13 @@
 #define TXTINTERPRETER_H
 
 #include "../../../headers/AllHeaders.h"
+#include "TxtParser.h"
 
-using ConfigVariant = std::variant<int, double, std::string, std::vector<int>, std::vector<std::vector<double>>>;
-
-class TxtInterpreter {
+class TxtInterpreter{
 public:
-    static std::unordered_map<std::string, ConfigVariant> interpret(const std::unordered_map<std::string, std::pair<std::string, std::string>>& parsedData);
+    std::any VariantToAny(const std::variant<int, double, float, std::string, bool>& var);
+    std::variant<int, double, float, std::string, bool> SpecifyDataType(Variable Var);
+    std::unordered_map<std::string, std::any> InterpreteTxt(std::vector<Variable> Variables);
 };
 
 #endif  // TXTINTERPRETER_H

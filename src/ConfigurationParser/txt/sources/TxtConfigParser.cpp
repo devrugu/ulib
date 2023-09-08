@@ -1,16 +1,10 @@
 #include "../headers/TxtConfigParser.h"
 
-TxtConfigParser::TxtConfigParser(const std::string& filepath) {
-    auto lines = TxtFileLoader::load(filepath);
-    auto parsedData = TxtParser::parse(lines);
-    data = TxtInterpreter::interpret(parsedData);
-}
+std::unordered_map<std::string, std::any> TxtConfigParser::ParseConfigTxt(const std::string &filepath)
+{
+    std::string content = fileLoader.LoadTxt(filepath);
+    std::vector<Variable> Variables = parser.ParseTxt(content);
+    std::unordered_map<std::string, std::any> CastedVariables = interpreter.InterpreteTxt(Variables);
 
-//template <typename T>
-//T TxtConfigParser::get(const std::string& key) {
-//    try {
-//        return std::get<T>(data.at(key));
-//    } catch (const std::exception&) {
-//        throw std::runtime_error("Key not found or wrong type");
-//    }
-//}
+    return CastedVariables;
+}

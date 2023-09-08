@@ -3,9 +3,17 @@
 
 #include "../../../headers/AllHeaders.h"
 
+struct Variable
+{
+    std::string name;
+    std::string type;
+    std::string value;
+};
+
 class TxtParser {
 public:
-    static std::unordered_map<std::string, std::pair<std::string, std::string>> parse(std::string content);
+    std::string trim(const std::string& str);
+    std::vector<Variable> ParseTxt(std::string content);
 };
 
 #endif  // TXTPARSER_H

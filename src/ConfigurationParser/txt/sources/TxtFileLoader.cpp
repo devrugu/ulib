@@ -1,6 +1,6 @@
 #include "../headers/TxtFileLoader.h"
 
-std::string TxtFileLoader::load(const std::string& filepath) {
+std::string TxtFileLoader::LoadTxt(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {
         throw std::runtime_error("File not found");

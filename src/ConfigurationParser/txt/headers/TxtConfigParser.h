@@ -2,25 +2,17 @@
 #define TXTCONFIGPARSER_H
 
 #include "../../../headers/AllHeaders.h"
-#include "TxtFileLoader.h"
 #include "TxtParser.h"
+#include "TxtFileLoader.h"
 #include "TxtInterpreter.h"
 
-class TxtConfigParser {
-private:
-    std::unordered_map<std::string, ConfigVariant> data;
-
+class TxtConfigParser{
 public:
-    TxtConfigParser(const std::string& filepath);
-
-    template <typename T>
-        T get(const std::string& key) {
-            try {
-                return std::get<T>(data.at(key));
-            } catch (const std::exception&) {
-                throw std::runtime_error("Key not found or wrong type");
-            }
-        }
+    std::unordered_map<std::string, std::any> ParseConfigTxt(const std::string& filepath);
+private:
+    TxtFileLoader fileLoader;
+    TxtParser parser;
+    TxtInterpreter interpreter;
 };
 
 #endif
