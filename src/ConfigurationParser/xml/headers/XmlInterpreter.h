@@ -16,7 +16,7 @@ private:
     template<typename T>
     T parseValue(const std::string& value);
 
-    // Specializations for different types will be defined in the cpp file
+    // Özelleştirmeleri XmlInterpreter.cpp dosyasında tanımlamak lazım...
 };
 
 #endif // XMLINTERPRETER_H

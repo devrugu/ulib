@@ -7,7 +7,7 @@ class XmlFileLoader : public IFileLoader
 {
 public:
     virtual ~XmlFileLoader() = default;
-    QDomDocument LoadFile(const std::string& filePath) override;
+    QDomDocument LoadFile(const std::string& filePath) override;    // for loading XML file
 };
 
 #endif // XMLFILELOADER_H

@@ -7,7 +7,6 @@ std::any TxtInterpreter::VariantToAny(const std::variant<int, double, float, std
 
 std::variant<int, double, float, std::string, bool> TxtInterpreter::SpecifyDataType(Variable Var)
 {
-    //Type casting
     if (Var.type == "int") {
         return std::stoi(Var.value);
     } else if (Var.type == "double") {

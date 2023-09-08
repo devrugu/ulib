@@ -61,27 +61,3 @@ void MatParser::WriteMatFile(std::vector<matvar_t *> AllVariablesOfMatFile)
 
         Mat_Close(matfp2);
 }
-
-//for (const std::string &UserVar : UserVariableNames) {
-//    bool found = false;
-//    while ( NULL != (MatVar = Mat_VarReadNext(matfp)) ) {
-//        if (!strcmp(MatVar->name, UserVar.c_str())) {
-//            VariablesOfUser[UserVar] = Mat_VarDuplicate(MatVar, 1);
-//            Mat_VarFree(MatVar);
-//            found = true;
-//            break;
-//        }
-//    }
-//    if(!found) {
-//        std::cerr << "Variable '" << UserVar << "' not found in the MAT file." << std::endl;
-//    }
-//}
-
-//for (const std::string &UserVar : UserVariableNames) {
-//    for (matvar_t* Var : AllVariablesOfMatFile) {
-//        if(!strcmp(Var->name, UserVar.c_str())) {
-//            VariablesOfUser[UserVar] = Var;
-//            break;
-//        }
-//    }
-//}
