@@ -1,7 +1,9 @@
 #ifndef ICONFIGPARSER_H
 #define ICONFIGPARSER_H
 
-#include "../../headers/AllHeaders.h"
+#include <iostream>
+#include <map>
+#include <string>
 
 class IConfigParser
 {

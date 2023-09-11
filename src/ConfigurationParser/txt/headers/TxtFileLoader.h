@@ -1,7 +1,7 @@
 #ifndef TXTFILELOADER_H
 #define TXTFILELOADER_H
 
-#include "../../../headers/AllHeaders.h"
+#include <string>
 
 class TxtFileLoader {
 public:

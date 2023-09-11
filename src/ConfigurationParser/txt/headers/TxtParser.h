@@ -1,7 +1,8 @@
 #ifndef TXTPARSER_H
 #define TXTPARSER_H
 
-#include "../../../headers/AllHeaders.h"
+#include <string>
+#include <vector>
 
 struct Variable
 {

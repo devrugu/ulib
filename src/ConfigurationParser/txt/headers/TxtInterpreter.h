@@ -1,8 +1,11 @@
 #ifndef TXTINTERPRETER_H
 #define TXTINTERPRETER_H
 
-#include "../../../headers/AllHeaders.h"
 #include "TxtParser.h"
+
+#include <any>
+#include <unordered_map>
+#include <variant>
 
 class TxtInterpreter{
 public:

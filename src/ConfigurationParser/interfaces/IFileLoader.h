@@ -1,7 +1,9 @@
 #ifndef IFILELOADER_H
 #define IFILELOADER_H
 
-#include "../../headers/AllHeaders.h"
+#include <iostream>
+
+class QDomDocument;
 
 class IFileLoader
 {

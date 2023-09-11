@@ -1,7 +1,12 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
-#include "../../headers/AllHeaders.h"
+#include <iostream>
+#include <map>
+#include <string>
+#include <stdexcept>
+
+class QDomDocument;
 
 class IParser
 {

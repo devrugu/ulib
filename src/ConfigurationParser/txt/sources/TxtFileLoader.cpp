@@ -1,5 +1,8 @@
 #include "../headers/TxtFileLoader.h"
 
+#include <stdexcept>
+#include <fstream>
+
 std::string TxtFileLoader::LoadTxt(const std::string& filepath) {
     std::ifstream file(filepath);
     if (!file.is_open()) {

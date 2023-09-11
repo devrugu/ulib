@@ -1,5 +1,9 @@
 #include "../headers/MatParser.h"
 
+#include <cstring>
+#include <iostream>
+#include <matio.h>
+
 MatParser::~MatParser()
 {
     //std::cout << "MAT file parser successfully deconstructed.\n\n";

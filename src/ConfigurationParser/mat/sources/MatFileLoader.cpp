@@ -1,5 +1,8 @@
 #include "../headers/MatFileLoader.h"
 
+#include <iostream>
+#include <matio.h>
+
 MatFileLoader::~MatFileLoader()
 {
     //std::cout << "mat file loader successfully deconstructed\n\n";

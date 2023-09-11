@@ -1,5 +1,10 @@
 #include "../headers/XmlFileLoader.h"
 
+#include <QDomDocument>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+
 QDomDocument XmlFileLoader::LoadFile(const std::string& filePath) {
     QFile file(QString::fromStdString(filePath));
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -26,7 +31,7 @@ QDomDocument XmlFileLoader::LoadFile(const std::string& filePath) {
     bool isSetContentSuccessful = doc.setContent(fileContent, &errorMsg, &errorLine, &errorColumn);
 
     // İçerik ayarlaması başarısız olursa, bu kök elementin eksik olduğu anlamına gelir
-    // Bu durumda, iyi bir biçimlendirilmiş XML belgesi oluşturmak için içeriği geçici bir kök (root) içinde sarar
+    // Bu durumda, iyi biçimlendirilmiş bir XML belgesi oluşturmak için içeriği geçici bir kök (root) içinde sarar
     if (!isSetContentSuccessful) {
         QString wrappedContent = xmlDeclaration + "<TempRoot>" + fileContent + "</TempRoot>";
         if (!doc.setContent(wrappedContent, &errorMsg, &errorLine, &errorColumn)) {

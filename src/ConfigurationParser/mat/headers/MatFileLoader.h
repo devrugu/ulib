@@ -1,7 +1,9 @@
 #ifndef MATFILELOADER_H
 #define MATFILELOADER_H
 
-#include "../../../headers/AllHeaders.h"
+#include <string>
+
+class _mat_t;
 
 #define ReadOnlyMode 0
 #define ReadWriteMode 1
@@ -13,7 +15,7 @@ public:
 
     MatFileLoader();
 
-    mat_t* LoadMatFile(std::string fileName, int mode);
+    _mat_t* LoadMatFile(std::string fileName, int mode);
 };
 
 #endif //MATFILELOADER_H

@@ -1,7 +1,6 @@
 #ifndef TXTCONFIGPARSER_H
 #define TXTCONFIGPARSER_H
 
-#include "../../../headers/AllHeaders.h"
 #include "TxtParser.h"
 #include "TxtFileLoader.h"
 #include "TxtInterpreter.h"

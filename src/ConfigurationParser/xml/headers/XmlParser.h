@@ -3,6 +3,8 @@
 
 #include "../../interfaces/IParser.h"
 
+class QDomNode;
+
 class XmlParser : public IParser
 {
 public:

@@ -1,5 +1,7 @@
 #include "../headers/MatConfigParser.h"
 
+#include "matio.h"
+
 matConfigParser::matConfigParser()
 {
     //std::cout << "mat config parser successfully constructed\n\n";
@@ -13,7 +15,7 @@ matConfigParser::~matConfigParser()
 
 std::map<std::string, std::any> matConfigParser::ParseConfigMatFile(const std::string fileName, int mode, int ReadType, std::vector<std::string> UserVariableNames)
 {
-    mat_t* matfp = fileLoader.LoadMatFile(fileName, mode);
+    _mat_t* matfp = fileLoader.LoadMatFile(fileName, mode);
 
     std::map<std::string, matvar_t*> VariablesOfUser = parser.ParseMatFile(matfp, UserVariableNames, ReadType);
 

@@ -21,6 +21,10 @@ MAT_T_UTF32     = 18   < @brief MAT unicode utf-32 encoded character data
 
 #include "../headers/MatInterpreter.h"
 
+#include <iostream>
+#include <matio.h>
+#include <memory>
+
 MatInterpreter::MatInterpreter()
 {
     //std::cout << "MAT file interpreter successfully constructed\n\n";

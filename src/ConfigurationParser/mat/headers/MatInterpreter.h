@@ -1,7 +1,11 @@
 #ifndef MATINTERPRETER_H
 #define MATINTERPRETER_H
 
-#include "../../../headers/AllHeaders.h"
+#include <any>
+#include <map>
+#include <string>
+
+class matvar_t;
 
 class MatInterpreter
 {

@@ -1,5 +1,8 @@
 #include "../headers/TxtInterpreter.h"
 
+#include <iostream>
+#include <regex>
+
 std::any TxtInterpreter::VariantToAny(const std::variant<int, double, float, std::string, bool> &var)
 {
     return std::visit([](auto&& arg) -> std::any { return arg; }, var);

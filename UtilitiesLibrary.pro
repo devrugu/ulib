@@ -3,19 +3,29 @@ QT += core xml concurrent
 
 TEMPLATE = lib
 
-CONFIG += c++17 console
+CONFIG += c++17 console plugin
 CONFIG -= app_bundle
-CONFIG += plugin
 
-DESTDIR = $$_PRO_FILE_PWD_/lib
-TARGET = utilities
-
-LIBS += -L/usr/local/lib/ -lmatio
-INCLUDEPATH += /usr/local/include
+LIBS += -L/opt/test/matio -lmatio
+INCLUDEPATH += /opt/test/include
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+# Configuration specific to debug build
+CONFIG(debug, debug|release) {
+    DESTDIR = $$_PRO_FILE_PWD_/lib/debug
+    TARGET = utilitiesd
+    QMAKE_CXXFLAGS_DEBUG += -O0 -g
+}
+
+# Configuration specific to release build
+CONFIG(release, debug|release) {
+    DESTDIR = $$_PRO_FILE_PWD_/lib/release
+    TARGET = utilities
+    QMAKE_CXXFLAGS_RELEASE -= -O2
+}
 
 SOURCES += \
     src/ConfigurationParser/mat/sources/MatConfigParser.cpp \
