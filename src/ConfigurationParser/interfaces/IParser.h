@@ -1,10 +1,10 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
-#include <iostream>
-#include <map>
+
+
 #include <string>
-#include <stdexcept>
+#include <map>
 
 class QDomDocument;
 

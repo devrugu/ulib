@@ -28,15 +28,15 @@ CONFIG(release, debug|release) {
 }
 
 SOURCES += \
-    src/ConfigurationParser/mat/sources/MatConfigParser.cpp \
+    src/ConfigurationParser/mat/sources/MatConfigProcessor.cpp \
     src/ConfigurationParser/mat/sources/MatFileLoader.cpp \
     src/ConfigurationParser/mat/sources/MatInterpreter.cpp \
     src/ConfigurationParser/mat/sources/MatParser.cpp \
-    src/ConfigurationParser/txt/sources/TxtConfigParser.cpp \
+    src/ConfigurationParser/txt/sources/TxtConfigProcessor.cpp \
     src/ConfigurationParser/txt/sources/TxtFileLoader.cpp \
     src/ConfigurationParser/txt/sources/TxtInterpreter.cpp \
     src/ConfigurationParser/txt/sources/TxtParser.cpp \
-    src/ConfigurationParser/xml/sources/XmlConfigParser.cpp \
+    src/ConfigurationParser/xml/sources/XmlConfigProcessor.cpp \
     src/ConfigurationParser/xml/sources/XmlFileLoader.cpp \
     src/ConfigurationParser/xml/sources/XmlInterpreter.cpp \
     src/ConfigurationParser/xml/sources/XmlParser.cpp
@@ -53,20 +53,20 @@ DISTFILES += \
     lib/libutilities.so
 
 HEADERS += \
-    src/ConfigurationParser/interfaces/IConfigParser.h \
+    src/ConfigurationParser/interfaces/IConfigProcessor.h \
     src/ConfigurationParser/interfaces/IFileLoader.h \
     src/ConfigurationParser/interfaces/IInterpreter.h \
     src/ConfigurationParser/interfaces/ILexer.h \
     src/ConfigurationParser/interfaces/IParser.h \
-    src/ConfigurationParser/mat/headers/MatConfigParser.h \
+    src/ConfigurationParser/mat/headers/MatConfigProcessor.h \
     src/ConfigurationParser/mat/headers/MatFileLoader.h \
     src/ConfigurationParser/mat/headers/MatInterpreter.h \
     src/ConfigurationParser/mat/headers/MatParser.h \
-    src/ConfigurationParser/txt/headers/TxtConfigParser.h \
+    src/ConfigurationParser/txt/headers/TxtConfigProcessor.h \
     src/ConfigurationParser/txt/headers/TxtFileLoader.h \
     src/ConfigurationParser/txt/headers/TxtInterpreter.h \
     src/ConfigurationParser/txt/headers/TxtParser.h \
-    src/ConfigurationParser/xml/headers/XmlConfigParser.h \
+    src/ConfigurationParser/xml/headers/XmlConfigProcessor.h \
     src/ConfigurationParser/xml/headers/XmlFileLoader.h \
     src/ConfigurationParser/xml/headers/XmlInterpreter.h \
     src/ConfigurationParser/xml/headers/XmlParser.h \

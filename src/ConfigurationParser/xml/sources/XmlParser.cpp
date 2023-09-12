@@ -3,6 +3,7 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
+#include <iostream>
 
 // Belirtilen XML düğümünü ve alt düğümlerini ayrıştırmak için.
 void XmlParser::traverseAndParseNode(const QDomNode &node, std::map<std::string, std::string> &result, const std::string &parentPath)

@@ -1,7 +1,10 @@
 #ifndef ILEXER_H
 #define ILEXER_H
 
-#include "../../headers/AllHeaders.h"
+#include <string>
+#include <vector>
+
+class QDomDocument;
 
 class ILexer
 {
