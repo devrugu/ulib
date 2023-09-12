@@ -2,6 +2,7 @@
 #define XMLINTERPRETER_H
 
 #include <map>
+#include <memory>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -10,21 +11,6 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <type_traits>
-
-namespace Helper
-{
-    // string'i belirli bir ayırıcıya göre bölme işlevi
-    std::vector<std::string> split(const std::string& s, char delimiter);
-
-    // string'deki çevreleyici parantezleri kaldırma işlevi
-    std::string stripParentheses(const std::string& s);
-
-    // string'i ayrı tuple string'lerine bölme işlevi
-    std::vector<std::string> splitTuples(const std::string& s);
-
-    // Bir string'i ayrı grup string'lerine böler - dış grupları ayırır
-    std::vector<std::string> splitOuterGroups(const std::string& s);
-}
 
 // Özelleştirilebilir temel parser şablonu
 template<typename T>
@@ -35,6 +21,54 @@ struct ValueParser {
     }
 };
 
+class XmlInterpreter {
+public:
+    XmlInterpreter(const std::map<std::string, std::string>& dataMap)
+            : data(std::make_shared<std::map<std::string, std::string>>(dataMap)) {}
+
+    // Anahtar üzerinden veriyi yorumlama işlevi
+    template<typename T>
+    T interpret(const std::string& key) {
+        std::cerr << "Interpreting key: " << key << std::endl;
+        auto it = data->find(key);
+        if (it == data->end()) {
+            throw std::runtime_error("Key not found in data map.");
+        }
+        try {
+            return parseValue<T>(it->second);
+        } catch(const std::exception& e) {
+            std::cerr << "Failed to parse value for key " << key << ": " << e.what() << std::endl;
+            throw;
+        }
+    }
+
+    // Değer parser işlemi, ValueParser yapıları aracılığıyla gerçekleştirilir
+    template<typename T>
+    T parseValue(const std::string& value) {
+        try {
+            return ValueParser<T>::parse(value);
+        } catch(const std::exception& e) {
+            std::cerr << "Failed to parse value: " << value << ": " << e.what() << std::endl;
+            throw;
+        }
+    }
+
+    // string'i belirli bir ayırıcıya göre bölme işlevi
+    static std::vector<std::string> split(const std::string& s, char delimiter);
+
+    // string'deki çevreleyici parantezleri kaldırma işlevi
+    static std::string stripParentheses(const std::string& s);
+
+    // string'i ayrı tuple string'lerine bölme işlevi
+    static std::vector<std::string> splitTuples(const std::string& s);
+
+    // Bir string'i ayrı grup string'lerine böler - dış grupları ayırır
+    static std::vector<std::string> splitOuterGroups(const std::string& s);
+
+private:
+    std::shared_ptr<const std::map<std::string, std::string>> data;
+};
+
 // Recursive vektör ayrıştırma işlevi, iç içe vektör yapısını ayrıştırır
 template<typename T>
 std::vector<T> parseRecursiveVector(const std::string& value, bool isOutermost = true) {
@@ -43,13 +77,13 @@ std::vector<T> parseRecursiveVector(const std::string& value, bool isOutermost =
     std::vector<std::string> items;
 
     if (isOutermost) {
-        items = Helper::splitOuterGroups(value);
+        items = XmlInterpreter::splitOuterGroups(value);
     } else {
-        items = Helper::split(value, ',');
+        items = XmlInterpreter::split(value, ',');
     }
 
     for (const auto& itemStr : items) {
-        result.push_back(ValueParser<T>::parse(Helper::stripParentheses(itemStr)));
+        result.push_back(ValueParser<T>::parse(XmlInterpreter::stripParentheses(itemStr)));
     }
     return result;
 }
@@ -61,7 +95,7 @@ struct is_vector : std::false_type {};
 template<typename T>
 struct is_vector<T, std::enable_if_t<std::is_same<T, std::vector<typename T::value_type>>::value>> : std::true_type {};
 
-// Tuple elemanlarını iç içe olarak ayrıştırma işlevi - recursive şablon (yavaşlatıyor -> belki kaldırmak gerekebilir, onur hocaya sor)
+// Tuple elemanlarını iç içe olarak ayrıştırma işlevi - recursive şablon
 template<std::size_t Index = 0, typename... TupleTypes>
 inline typename std::enable_if<Index == sizeof...(TupleTypes), void>::type
 parseTupleElements(const std::vector<std::string>& /*values*/, std::tuple<TupleTypes...>& /*tuple*/) {}
@@ -74,7 +108,7 @@ parseTupleElements(const std::vector<std::string>& values, std::tuple<TupleTypes
 }
 
 /*
- * Bazı temel türler için ValueParser özelleştirmeleri
+ * Bazı türler için ValueParser özelleştirmeleri
 */
 
 // Pair'leri vektörü için özelleştirilmiş parser
@@ -84,7 +118,7 @@ struct ValueParser<std::vector<std::pair<T1, T2>>> {
         //std::cout << "Parsing vector of pairs from string: " << value << std::endl;  // Debug
 
         std::vector<std::pair<T1, T2>> result;
-        auto pairStrings = Helper::splitOuterGroups(value);
+        auto pairStrings = XmlInterpreter::splitOuterGroups(value);
         for (const auto& pairStr : pairStrings) {
             //std::cout << "Pair string: " << pairStr << std::endl;  // Debug
             result.push_back(ValueParser<std::pair<T1, T2>>::parse(pairStr));
@@ -98,7 +132,7 @@ template<typename... Ts>
 struct ValueParser<std::vector<std::tuple<Ts...>>> {
     static std::vector<std::tuple<Ts...>> parse(const std::string& value) {
         std::vector<std::tuple<Ts...>> result;
-        for (const auto& tupleStr : Helper::splitTuples(value)) {
+        for (const auto& tupleStr : XmlInterpreter::splitTuples(value)) {
             result.push_back(ValueParser<std::tuple<Ts...>>::parse(tupleStr));
         }
         return result;
@@ -122,7 +156,7 @@ struct ValueParser<std::vector<T>> {
 template<typename T1, typename T2>
 struct ValueParser<std::pair<T1, T2>> {
     static std::pair<T1, T2> parse(const std::string& value) {
-        std::string strippedValue = Helper::stripParentheses(value);  // Parantezleri çıkar
+        std::string strippedValue = XmlInterpreter::stripParentheses(value);  // Parantezleri çıkar
         std::stringstream ss(strippedValue);
         std::string item1, item2;
         std::getline(ss, item1, ',');
@@ -138,10 +172,10 @@ struct ValueParser<std::tuple<Ts...>> {
         //std::cout << "Parsing tuple from string: " << value << std::endl;  // Debug
 
         std::tuple<Ts...> result;
-        std::string strippedValue = Helper::stripParentheses(value);
+        std::string strippedValue = XmlInterpreter::stripParentheses(value);
         //std::cout << "Stripped value: " << strippedValue << std::endl;  // Debug
 
-        std::vector<std::string> values = Helper::split(strippedValue, ',');
+        std::vector<std::string> values = XmlInterpreter::split(strippedValue, ',');
         /*for (const auto& val : values) {
             std::cout << "Tuple element: " << val << std::endl;  // Debug
         }*/
@@ -222,44 +256,6 @@ struct ValueParser<bool> {
             }
         } catch (const std::exception& e) {
             std::cerr << "Error processing string value: " << value << " - " << e.what() << std::endl;
-            throw;
-        }
-    }
-};
-
-
-class XmlInterpreter {
-public:
-    XmlInterpreter(const std::map<std::string, std::string>& dataMap) : data(dataMap) {}
-
-    // Anahtar üzerinden veriyi yorumlama işlevi
-    template<typename T>
-    T interpret(const std::string& key) {
-        std::cerr << "Interpreting key: " << key << std::endl;
-        auto it = data.find(key);
-        if (it == data.end()) {
-            throw std::runtime_error("Key not found in data map.");
-        }
-        try {
-            return parseValue<T>(it->second);
-        } catch(const std::exception& e) {
-            std::cerr << "Failed to parse value for key " << key << ": " << e.what() << std::endl;
-            throw;
-        }
-    }
-
-    std::vector<std::string> split(const std::string& s, char delimiter);
-
-private:
-    const std::map<std::string, std::string>& data;
-
-    // Değer parser işlemi, ValueParser yapıları aracılığıyla gerçekleştirilir
-    template<typename T>
-    T parseValue(const std::string& value) {
-        try {
-            return ValueParser<T>::parse(value);
-        } catch(const std::exception& e) {
-            std::cerr << "Failed to parse value: " << value << ": " << e.what() << std::endl;
             throw;
         }
     }
