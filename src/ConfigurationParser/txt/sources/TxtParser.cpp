@@ -12,8 +12,8 @@ std::string TxtParser::trim(const std::string& str)
 
 std::vector<Variable> TxtParser::ParseTxt(std::string content)
 {
-    std::regex var_pattern(R"(\*(\w+):\s*TYPE\s*=\s*([\w\<\>\,\s]+)\s*VALUE\s*=\s*([^\*]+))"), ArrVecPattern("\\b(\\w+)<(\\w+)>");
-    std::smatch MatchVar, MatchArrVec;
+    std::regex var_pattern(R"(\*(\w+):\s*TYPE\s*=\s*([\w\<\>\,\s]+)\s*VALUE\s*=\s*([^\*]+))");
+    std::smatch MatchVar;
 
     std::vector<Variable> Variables;
 

@@ -44,69 +44,84 @@ std::unordered_map<std::string, std::any> TxtInterpreter::InterpreteTxt(std::vec
 {
     std::unordered_map<std::string, std::any> CastedVariables;
 
-    std::regex ArrVecPattern("\\b(\\w+)<(\\w+)>");
+    std::regex ArrVecPattern(R"((array|vector)<(\w+)>)");
     std::smatch MatchArrVec;
 
     for (const auto& Var : Variables) {
         if (Var.type.compare(0, 5, "array") == 0 || Var.type.compare(0, 6, "vector") == 0) {
             if (std::regex_search(Var.type, MatchArrVec, ArrVecPattern)) {
+                std::string containerType = MatchArrVec[1];
                 std::string elementType = MatchArrVec[2];
 
                 std::regex number_pattern(R"((\btrue\b|\bfalse\b|\bTRUE\b|\bFALSE\b|\b\d+\.\d+|\b\d+|"(?:[^"\\]|\\.)*"))");
                 std::sregex_iterator begin(Var.value.begin(), Var.value.end(), number_pattern);
                 std::sregex_iterator end;
                 std::vector<std::string> values;
-                for(std::sregex_iterator it = begin; it != end; ++it) {
+
+                for (std::sregex_iterator it = begin; it != end; ++it) {
                     values.push_back(it->str());
                 }
+
                 std::cout << "(";
                 for (const auto& s : values) {
                     std::cout << s << ",";      // debug vector-array value
                 }
                 std::cout << ")\n";
 
-                if (elementType == "int") {
-                    std::vector<int> VectorInt;
-                    for (const auto &element : values)
-                        VectorInt.push_back(std::stoi(element));
-                    CastedVariables[Var.name] = VectorInt;
-                } else if (elementType == "double") {
-                    std::vector<double> VectorDouble;
-                    for (const auto &element : values)
-                        VectorDouble.push_back(std::stod(element));
-                    CastedVariables[Var.name] = VectorDouble;
-                } else if (elementType == "float") {
-                    std::vector<float> VectorFloat;
-                    for (const auto &element : values)
-                        VectorFloat.push_back(std::stof(element));
-                    CastedVariables[Var.name] = VectorFloat;
-                } else if (elementType == "string") {
-                    std::vector<std::string> VectorString;
-                    for (const auto &element : values) {
-                        std::string StrValue = element;
-                        if (StrValue.front() == '\"' && StrValue.back() == '\"') {
-                                StrValue = StrValue.substr(1, StrValue.size() - 2);
-                            }
-                        VectorString.push_back(StrValue);
-                    }
-                    CastedVariables[Var.name] = VectorString;
-                } else if (elementType == "bool") {
-                    std::vector<bool> VectorBool;
-                    for (const auto& element : values) {
-                        bool BoolValue;
-                        if(element == "true" || element == "1" || element == "TRUE") {
-                            BoolValue = true;
-                        } else if (element == "false" || element == "0" || element == "FALSE") {
-                            BoolValue = false;
-                        } else {
-                            std::cout << "bool type should be 'true' or 'false'.\n"
-                                         "correct usage --> 'true', '1' or 'TRUE' for true "
-                                         "and 'false', '0' or 'FALSE' for false\n";
-                            exit(1);
+                if (containerType == "vector") {
+                    if (elementType == "int") {
+                        std::vector<int> VectorInt;
+                        for (const auto &element : values)
+                            VectorInt.push_back(std::stoi(element));
+                        CastedVariables[Var.name] = VectorInt;
+                    } else if (elementType == "double") {
+                        std::vector<double> VectorDouble;
+                        for (const auto &element : values)
+                            VectorDouble.push_back(std::stod(element));
+                        CastedVariables[Var.name] = VectorDouble;
+                    } else if (elementType == "float") {
+                        std::vector<float> VectorFloat;
+                        for (const auto &element : values)
+                            VectorFloat.push_back(std::stof(element));
+                        CastedVariables[Var.name] = VectorFloat;
+                    } else if (elementType == "string") {
+                        std::vector<std::string> VectorString;
+                        for (const auto &element : values) {
+                            std::string StrValue = element;
+                            if (StrValue.front() == '\"' && StrValue.back() == '\"') {
+                                    StrValue = StrValue.substr(1, StrValue.size() - 2);
+                                }
+                            VectorString.push_back(StrValue);
                         }
-                        VectorBool.push_back(BoolValue);
+                        CastedVariables[Var.name] = VectorString;
+                    } else if (elementType == "bool") {
+                        std::vector<bool> VectorBool;
+                        for (const auto& element : values) {
+                            bool BoolValue;
+                            if(element == "true" || element == "1" || element == "TRUE") {
+                                BoolValue = true;
+                            } else if (element == "false" || element == "0" || element == "FALSE") {
+                                BoolValue = false;
+                            } else {
+                                std::cout << "bool type should be 'true' or 'false'.\n"
+                                             "correct usage --> 'true', '1' or 'TRUE' for true "
+                                             "and 'false', '0' or 'FALSE' for false\n";
+                                exit(1);
+                            }
+                            VectorBool.push_back(BoolValue);
+                        }
+                        CastedVariables[Var.name] = VectorBool;
                     }
-                    CastedVariables[Var.name] = VectorBool;
+                } else if (containerType == "array") {
+                    int arraySize = values.size();
+
+                    if (elementType == "int") {
+                        std::shared_ptr<int[]> IntArray = std::make_shared<int[]>(arraySize);
+                        for(size_t i = 0; i < values.size(); ++i) {
+                            IntArray.get()[i] = std::stoi(values[i]);
+                        }
+                        CastedVariables[Var.name] = IntArray;
+                    }
                 }
             } else {
                 std::cerr << "array or vector format is incorrect\n";
