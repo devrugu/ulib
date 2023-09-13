@@ -12,6 +12,11 @@ public:
     std::any VariantToAny(const std::variant<int, double, float, std::string, bool>& var);
     std::variant<int, double, float, std::string, bool> SpecifyDataType(Variable Var);
     std::unordered_map<std::string, std::any> InterpreteTxt(std::vector<Variable> Variables);
+
+    struct ArrayWrapper {
+        std::any array;
+        std::size_t size;
+    };
 };
 
 #endif  // TXTINTERPRETER_H
