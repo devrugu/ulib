@@ -35,8 +35,10 @@ std::variant<int, double, float, std::string, bool> TxtInterpreter::SpecifyDataT
         }
         return value;
     } else {
-        std::cerr << Var.name << ":" << Var.type << " datatype is unknown\n";
-        exit(1);
+        if(Var.type.compare(0, 5, "array") == 0) {
+            std::cerr << Var.name << ":" << Var.type << " datatype is unknown.(array is not supported. use vector instead.)\n";
+        }
+        return "unknown";
     }
 }
 
@@ -44,12 +46,12 @@ std::unordered_map<std::string, std::any> TxtInterpreter::InterpreteTxt(std::vec
 {
     std::unordered_map<std::string, std::any> CastedVariables;
 
-    std::regex ArrVecPattern(R"((array|vector)<(\w+)>)");
+    std::regex VecPattern(R"((vector)<(\w+)>)");
     std::smatch MatchArrVec;
 
     for (const auto& Var : Variables) {
-        if (Var.type.compare(0, 5, "array") == 0 || Var.type.compare(0, 6, "vector") == 0) {
-            if (std::regex_search(Var.type, MatchArrVec, ArrVecPattern)) {
+        if (Var.type.compare(0, 6, "vector") == 0) {
+            if (std::regex_search(Var.type, MatchArrVec, VecPattern)) {
                 std::string containerType = MatchArrVec[1];
                 std::string elementType = MatchArrVec[2];
 
@@ -64,7 +66,7 @@ std::unordered_map<std::string, std::any> TxtInterpreter::InterpreteTxt(std::vec
 
                 std::cout << "(";
                 for (const auto& s : values) {
-                    std::cout << s << ",";      // debug vector-array value
+                    std::cout << s << ",";      // debug vector value
                 }
                 std::cout << ")\n";
 
@@ -112,71 +114,14 @@ std::unordered_map<std::string, std::any> TxtInterpreter::InterpreteTxt(std::vec
                         }
                         CastedVariables[Var.name] = VectorBool;
                     } else {
-                        std::cerr << Var.name << ":" << Var.type << " datatype is unknown\n";
-                        exit(1);
-                    }
-                } else if (containerType == "array") {
-                    size_t arraySize = values.size();
-                    if (elementType == "int") {
-                        auto IntArray = std::shared_ptr<int[]>(new int[arraySize], std::default_delete<int[]>());
-                        std::cout << "Debug: Array size before insertion: " << sizeof(IntArray) << "\n";
-                        std::cout << "Array size: " << arraySize << "\n";
-                        for(size_t i = 0; i < values.size(); ++i) {
-                            std::cout << "Assigning to index: " << i << "\n";
-                            IntArray.get()[i] = std::stoi(values[i]);
+                        if(Var.type.compare(0, 5, "array") == 0) {
+                            std::cerr << Var.name << ":" << Var.type << " datatype is unknown.(array is not supported. use vector instead.)\n";
+                            CastedVariables[Var.name] = "unknown";
                         }
-                        ArrayWrapper wrapper = {IntArray, arraySize};
-                        CastedVariables[Var.name] = wrapper;
-                    } else if (elementType == "double") {
-                        auto DoubleArray = std::shared_ptr<double[]>(new double[arraySize], std::default_delete<double[]>());
-                        for (size_t i = 0; i < values.size(); ++i) {
-                            DoubleArray.get()[i] = std::stod(values[i]);
-                        }
-                        ArrayWrapper wrapper = {DoubleArray, arraySize};
-                        CastedVariables[Var.name] = wrapper;
-                    } else if (elementType == "float") {
-                        auto FloatArray = std::shared_ptr<float[]>(new float[arraySize], std::default_delete<float[]>());
-                        for (size_t i = 0; i < values.size(); ++i) {
-                            FloatArray.get()[i] = std::stof(values[i]);
-                        }
-                        ArrayWrapper wrapper = {FloatArray, arraySize};
-                        CastedVariables[Var.name] = wrapper;
-                    } else if (elementType == "string") {
-                        auto StringArray = std::shared_ptr<std::string[]>(new std::string[arraySize], std::default_delete<std::string[]>());
-                        for (size_t i = 0; i < values.size() && i < arraySize; ++i) {
-                            std::string StrValue = values[i];
-                            if (StrValue.front() == '\"' && StrValue.back() == '\"') {
-                                StrValue = StrValue.substr(1, StrValue.size() - 2);
-                            }
-                            StringArray.get()[i] = StrValue;
-                        }
-                        ArrayWrapper wrapper = {StringArray, arraySize};
-                        CastedVariables[Var.name] = wrapper;
-                    } else if (elementType == "bool") {
-                        auto BoolArray = std::shared_ptr<bool[]>(new bool[arraySize], std::default_delete<bool[]>());
-                        for (size_t i = 0; i < values.size(); ++i) {
-                            bool BoolValue;
-                            if(values[i] == "true" || values[i] == "1" || values[i] == "TRUE") {
-                                BoolValue = true;
-                            } else if (values[i] == "false" || values[i] == "0" || values[i] == "FALSE") {
-                                BoolValue = false;
-                            } else {
-                                std::cout << "bool type should be 'true' or 'false'.\n"
-                                             "correct usage --> 'true', '1' or 'TRUE' for true "
-                                             "and 'false', '0' or 'FALSE' for false\n";
-                                exit(1);
-                            }
-                            BoolArray.get()[i] = BoolValue;
-                        }
-                        ArrayWrapper wrapper = {BoolArray, arraySize};
-                        CastedVariables[Var.name] = wrapper;
-                    } else {
-                        std::cerr << Var.name << ":" << Var.type << " datatype is unknown\n";
-                        exit(1);
                     }
                 }
             } else {
-                std::cerr << "array or vector format is incorrect\n";
+                std::cerr << "vector format is incorrect\n";
                 exit(1);
             }
         } else {
