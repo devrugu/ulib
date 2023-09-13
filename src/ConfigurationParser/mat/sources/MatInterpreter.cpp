@@ -59,34 +59,34 @@ std::pair<std::string, std::any> MatInterpreter::SpecifyDataType(matvar_t* Varia
     else {
         switch (Variable->data_type) {
             case MAT_T_INT8:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<int8_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<int8_t>(static_cast<int8_t*>(Variable->data), [](int8_t*){}));
                 break;
             case MAT_T_UINT8:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<uint8_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<uint8_t>(static_cast<uint8_t*>(Variable->data), [](uint8_t*){}));
                 break;
             case MAT_T_INT16:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<int16_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<int16_t>(static_cast<int16_t*>(Variable->data), [](int16_t*){}));
                 break;
             case MAT_T_UINT16:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<uint16_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<uint16_t>(static_cast<uint16_t*>(Variable->data), [](uint16_t*){}));
                 break;
             case MAT_T_INT32:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<int32_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<int32_t>(static_cast<int32_t*>(Variable->data), [](int32_t*){}));
                 break;
             case MAT_T_UINT32:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<uint32_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<uint32_t>(static_cast<uint32_t*>(Variable->data), [](uint32_t*){}));
                 break;
             case MAT_T_SINGLE:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<float*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<float>(static_cast<float*>(Variable->data), [](float*){}));
                 break;
             case MAT_T_DOUBLE:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<double*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<double>(static_cast<double*>(Variable->data), [](double*){}));
                 break;
             case MAT_T_INT64:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<int64_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<int64_t>(static_cast<int64_t*>(Variable->data), [](int64_t*){}));
                 break;
             case MAT_T_UINT64:
-                TypeCastedVariableOfUser = std::make_pair(Name, static_cast<uint64_t*>(Variable->data));
+                TypeCastedVariableOfUser = std::make_pair(Name, std::shared_ptr<uint64_t>(static_cast<uint64_t*>(Variable->data), [](uint64_t*){}));
                 break;
             case MAT_T_UTF8:
             case MAT_T_UTF16:
